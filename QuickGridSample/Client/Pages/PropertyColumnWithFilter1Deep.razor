@@ -1,0 +1,33 @@
+﻿@using Microsoft.AspNetCore.Components.QuickGrid
+@using System.Linq.Expressions;
+
+@typeparam TGridItem
+@typeparam TProp
+
+@{Console.WriteLine("Before PropertyColumn in PropertyColumnWithFilter");}
+<PropertyColumn  Property="@Property" Title="@Title">
+		<ColumnOptions>
+			<div class="search-box">
+				<input type="search" @bind="@(Filter.Pattern)" @bind:event="oninput" placeholder="filter" />
+			</div>
+		</ColumnOptions>
+	</PropertyColumn>
+@{
+	Console.WriteLine("After PropertyColumn PropertyColumnWithFilter");
+	// pcRef.Grid.AddColumn(pcRef,pcRef.IsDefaultSort);
+}
+
+
+@code {
+
+	[Parameter, EditorRequired]
+	public Expression<Func<TGridItem, TProp>> Property { get; set; } = default!;
+
+
+	[Parameter, EditorRequired]
+	public Filter Filter { get; set; } = default!;
+
+	[Parameter, EditorRequired]
+	public string Title { get; set; } = default!;
+
+}

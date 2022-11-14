@@ -1,0 +1,23 @@
+﻿@using Microsoft.AspNetCore.Components.QuickGrid
+@using System.Linq.Expressions;
+
+@typeparam TGridItem
+@typeparam TProp
+
+<PropertyColumnWithFilter  Property="@Property" Title="@Title" Filter="@Filter">
+	</PropertyColumnWithFilter>
+
+@code {
+
+	[Parameter, EditorRequired]
+	public Expression<Func<TGridItem, TProp>> Property { get; set; } = default!;
+
+
+	[Parameter, EditorRequired]
+	public Filter Filter { get; set; } = default!;
+
+	[Parameter, EditorRequired]
+	public string Title { get; set; } = default!;
+
+
+}
