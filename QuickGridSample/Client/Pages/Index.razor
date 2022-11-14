@@ -1,0 +1,59 @@
+﻿@page "/"
+@using Microsoft.AspNetCore.Components.QuickGrid
+
+<PageTitle>Index</PageTitle>
+
+<h1>Hello, world!</h1>
+
+Welcome to your new app.
+
+<SurveyPrompt Title="How is Blazor working for you?" />
+
+
+
+<div>
+	The bug with the current Quick Grid is that if a user puts a PropertyColumn under their own
+	razor component, then the column does show in the grid.
+
+	This is because the razor components are rendered in a breath-first order.  There is a Defer component
+	that allows PropertyColumn to show up because this component is 1 deep in the render tree.  To see ColumnBase
+	components that are 2 deep or 3 deep, then more Defer layers are needed.
+
+	In the grid below, there should be 3 columns shown:  "First Name 1 Deep", "Middle Name 2 Deep" and "Last Name 0 Deep".
+	The previous Quick Grid only shows the "Last Name 0 Deep" column.  
+</div>
+
+<QuickGrid Items="UserQueryable" >
+
+	<PropertyColumnWithFilter1Deep Property="@(x => x.FirstName)" Filter="@FirstNameFilter"  Title="First Name 1 Deep"/>
+	<PropertyColumnWithFilter2Deep Property="@(x => x.MiddleName)" Filter="@MiddleNameFilter"  Title="Middle Name 2 Deep"/>
+	<PropertyColumn Property="@(x => x.LastName)" Title="Last Name 0 Deep">
+		<ColumnOptions>
+			<div class="search-box">
+				<input type="search" @bind="@(LastNameFilter.Pattern)" @bind:event="oninput" placeholder="filter" />
+			</div>
+		</ColumnOptions>
+	</PropertyColumn>
+</QuickGrid>
+
+
+@code {
+
+
+	List<ExampleUser> UserList = new()
+	{
+		new ExampleUser("a","1","user1"),
+		new ExampleUser("b","2","user2"),
+		new ExampleUser("c","3","user3")
+	};
+
+	Filter FirstNameFilter = new();
+	Filter MiddleNameFilter = new();
+	Filter LastNameFilter = new();
+
+	IQueryable<ExampleUser> UserQueryable {get => UserList.Where(x => FirstNameFilter.IsMatch(x.FirstName) &&
+																	LastNameFilter.IsMatch(x.LastName) &&
+																	MiddleNameFilter.IsMatch(x.MiddleName)
+			).AsQueryable();
+	}
+}
