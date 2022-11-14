@@ -13,16 +13,16 @@ Welcome to your new app.
 
 <div>
 	<p>The bug with the current Quick Grid is that if a user puts a PropertyColumn under their own
-		razor component, then the column does show in the grid.
+	razor component, then the column does show in the grid.
 	</p>
 
 	<p>This is because the razor components are rendered in a breath-first order.  There is a Defer component
 	that allows PropertyColumn to show up because this component is 1 deep in the render tree.  To see ColumnBase
-		components that are 2 deep or 3 deep, then more Defer layers are needed.
+	components that are 2 deep or 3 deep, then more Defer layers are needed.
 	</p>
 
 	<p>In the grid below, there should be 3 columns shown:  "First Name 1 Deep", "Middle Name 2 Deep" and "Last Name 0 Deep".
-		The previous Quick Grid only shows the "Last Name 0 Deep" column.
+	The previous Quick Grid only shows the "Last Name 0 Deep" column.  
 	</p>
 </div>
 
